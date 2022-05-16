@@ -9,7 +9,7 @@ Quote = quote.Quote
 
 
 # Getting the movie base url
-base_url = app.config["QUOTE_API_BASE_URL"]
+base_url = None
 
 
 def get_quotes(random):
