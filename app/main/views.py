@@ -12,7 +12,7 @@ def index():
     
     return render_template('index.html',blogs = blogs)
 
-@main.route('/create_new', methods = ['POST','GET'])
+@main.route('/create_new', methods = ['GET','POST'])
 @login_required
 def new_blog():
     form = BlogForm()
@@ -20,13 +20,13 @@ def new_blog():
         title = form.title.data
         post = form.post.data
         user_id = current_user
-        new_blog_object = Blog(post=post,user_id=current_user._get_current_object().id,category=category,title=title)
+        new_blog_object = Blog(post=post,user_id=current_user._get_current_object().id,post=post,title=title)
         new_blog_object.save_p()
         return redirect(url_for('main.index'))
         
     return render_template('create_blog.html', form = form)
 
-@main.route('/comment/<int:blog_id>', methods = ['POST','GET'])
+@main.route('/comment/<int:blog_id>', methods = ['GET','POST'])
 @login_required
 def comment(blog_id):
     form = CommentForm()
@@ -52,7 +52,7 @@ def profile(uname):
 
     return render_template("profile/profile.html", user = user,posts=posts)
 
-@main.route('/user/<name>/updateprofile', methods = ['POST','GET'])
+@main.route('/user/<name>/updateprofile', methods = ['GET','POST'])
 @login_required
 def updateprofile(name):
     form = UpdateProfile()
@@ -77,7 +77,7 @@ def update_pic(name):
         db.session.commit()
     return redirect(url_for('main.profile',name=name))
 
-@main.route('/like/<int:id>',methods = ['POST','GET'])
+@main.route('/like/<int:id>',methods = ['GET','POST'])
 @login_required
 def like(id):
     blog = blog.query.get(id)
@@ -85,7 +85,7 @@ def like(id):
     new_vote.save()
     return redirect(url_for('main.index',blog_id=id))
 
-@main.route('/dislike/<int:id>',methods = ['POST','GET'])
+@main.route('/dislike/<int:id>',methods = ['GET','POST'])
 @login_required
 def dislike(id):
     blog = Blog.query.get(id)

@@ -5,7 +5,8 @@ from app.models import User
 from .forms import RegForm,LoginForm
 from ..email import mail_message
 
-@auth.route('/login',methods = ['POST','GET'])
+
+@auth.route('/login',methods = ['GET','POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -16,13 +17,13 @@ def login():
         flash('Wrong Username or Password')
     return render_template('auth/login.html',form = form)
 
-@auth.route('/signup',methods = ["POST","GET"])
+@auth.route('/signup',methods = ["GET","POST"])
 def signup():
     form = RegForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, email = form.email.data, password=form.password.data)
         user.save()
-        mail_message("Welcome to D-Blog","email/welcome",user.email,user=user)
+        mail_message("Welcome to Learn along","email/welcome",user.email,user=user)
         return  redirect(url_for('auth.login'))
     return render_template('auth/signup.html',registration_form=form )
 
