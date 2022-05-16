@@ -6,7 +6,7 @@ class UpdateProfile(FlaskForm):
     bio = TextAreaField('Write a brief bio about you.',validators = [InputRequired()])
     submit = SubmitField('Save')
 
-class PitchForm(FlaskForm):
+class BlogForm(FlaskForm):
     title = StringField('Title', validators=[InputRequired()])
     post = TextAreaField('Your Blog', validators=[InputRequired()])
     submit = SubmitField('Blog')
