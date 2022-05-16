@@ -1,0 +1,3 @@
+Hello {{user.username}}
+Welcome to Learn Along
+We have just seen you have signed up for our blog and want to welcome you to the family. Please enjoy the blogs.
