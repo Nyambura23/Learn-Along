@@ -1,3 +1,5 @@
-virtual/
-*.pyc
-instance/
+.env
+.vscode
+virtual
+*pyc
+__pycache__
