@@ -1,11 +1,11 @@
-{% macro displayQuoteList(quote_list) %}
+{% macro displayBlogList(blog_list) %}
 
-    {% for quote in quote_list %}
+    {% for blog in blog_list %}
     <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 movie-card">
       <!-- <img src="" class="img-responsive"> -->
       <li class="text-center">
-          <a href="/quote/{{quote.author}}">
-              {{ quote.quote|truncate(100)}}</a>
+          <a href="/blog/{{blog.author}}">
+              {{ blog.blog|truncate(100)}}</a>
       </li>
   </div>
     {% endfor %}
