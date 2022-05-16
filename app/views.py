@@ -12,9 +12,8 @@ def index():
     View root page function that returns the index page and its data
     '''
     # Getting random quotes
-    random_quotes = get_quotes('random')
-    print(random_quotes)
-    title = 'Home - Welcome to The best Movie Review Website Online'
+    random_quotes = get_quotes('random') 
+    title = 'Home - Welcome to Learn Along'
     return render_template('index.html', title = title,random = random_quotes)
 
 @app.route('/quote/<quote_id>')

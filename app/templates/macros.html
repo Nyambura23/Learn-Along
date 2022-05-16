@@ -1,0 +1,7 @@
+{% macro displayQuoteList(quote_list) %}
+
+    {% for quote in quote_list %}
+        <li>{{ quote.title}}</li>
+    {% endfor %}
+
+{% endmacro %}
