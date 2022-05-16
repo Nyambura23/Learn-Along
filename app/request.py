@@ -43,7 +43,6 @@ def process_results(quote_list):
     '''
     quote_results = []
     for quote_item in quote_list.values():
-
         author = quote_list.get('author')
         id = quote_list.get('id')
         quote = quote_list.get('quote')
@@ -54,3 +53,21 @@ def process_results(quote_list):
             quote_results.append(quote_object)
 
     return quote_results
+
+def get_quote(id):
+    get_quote_details_url = base_url.format(id)
+
+    with urllib.request.urlopen(get_quote_details_url) as url:
+        quote_details_data = url.read()
+        quote_details_response = json.loads(quote_details_data)
+
+        quote_object = None
+        if quote_details_response:
+            author = quote_details_response.get('author')
+            id = quote_details_response.get('id')
+            quote = quote_details_response.get('quote')
+            permalink = quote_details_response.get('permalink_path')
+
+            quote_object = Quote(author,id,quote,permalink)
+
+    return quote_object
