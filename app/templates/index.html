@@ -1,1 +1,21 @@
-<h1> {{ message }} </h1>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        {% if title %}
+        <title> {{ title }}</title>
+        {% else %}
+        <title> Welcome to the best learning website online </title>
+        {% endif %}
+    </head>
+    <body>
+        <!-- Random quote section  -->
+        <h3> Random Quotes</h3>
+         <ul>
+            {% for random_quote in random %}
+                <li>{{ random_quote.quote}}</li>
+            {% endfor %}
+        </ul>
+
+    </body>
+</html>
