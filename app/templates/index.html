@@ -23,10 +23,19 @@
         <!-- Random quote section  -->
         <h3> Random Quotes</h3>
         <ul>
-            {{ macro.displayQuoteList(random)}}
+            {{ macro.displayBlogList(random)}}
         </ul>
 
     </body>
 </html>
 
 {% endblock%}
+
+<!-- <div class="container">
+    <div class="card cardquote">
+        <div class="card-title">
+            <h4>A quote by: <span style="color: rgb(3, 3, 3)">{{quote.author}}</span> </h4>
+        </div>
+        <p class="card-text">{{quote.quote}}</p>
+    </div>
+</div> -->

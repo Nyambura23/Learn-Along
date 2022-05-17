@@ -104,3 +104,46 @@ class Subscriber(db.Model):
 
     def __repr__(self):
         return f'Subscriber {self.email}'
+
+class Upvote(db.Model):
+    __tablename__ = 'upvotes'
+
+    id = db.Column(db.Integer,primary_key=True)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    pitch_id = db.Column(db.Integer,db.ForeignKey('blogs.id'))
+    
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_upvotes(cls,id):
+        upvote = Upvote.query.filter_by(blog_id=id).all()
+        return upvote
+
+
+    def __repr__(self):
+        return f'{self.user_id}:{self.blog_id}'
+
+class Downvote(db.Model):
+    __tablename__ = 'downvotes'
+
+    id = db.Column(db.Integer,primary_key=True)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    pitch_id = db.Column(db.Integer,db.ForeignKey('blogs.id'))
+    
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    @classmethod
+    def get_downvotes(cls,id):
+        downvote = Downvote.query.filter_by(blog_id=id).all()
+        return downvote
+
+    def __repr__(self):
+        return f'{self.user_id}:{self.blog_id}'
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
