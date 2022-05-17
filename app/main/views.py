@@ -1,5 +1,6 @@
 from flask import flash, render_template, redirect, url_for,abort,request
 from app.email import mail_message
+from app.request import get_quotes
 from . import main
 from flask_login import login_required,current_user
 from app.models import User,Blog,Comment,Subscriber,Upvote,Downvote
@@ -8,9 +9,9 @@ from .. import db,photos
 
 @main.route('/')
 def index():
+    quotes = get_quotes
     blogs = Blog.query.all()
-   
-    return render_template('index.html',blogs = blogs)
+    return render_template('index.html',quote=quotes, blogs = blogs)
 
 @main.route('/create_new', methods = ['GET','POST'])
 @login_required
@@ -20,7 +21,7 @@ def new_blog():
         title = form.title.data
         post = form.post.data
         user_id = current_user
-        new_blog_object = Blog(post=post,user_id=current_user._get_current_object().id,title=title)
+        new_blog_object = Blog(post=post,user_id=user_id._get_current_object().id,title=title)
         new_blog_object.save_p()
         return redirect(url_for('main.index'))
         

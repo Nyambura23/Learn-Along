@@ -5,20 +5,21 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash,check_password_hash
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(user_id)
+
 
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer,primary_key = True)
+    id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(255),unique = True,nullable = False)
-    email = db.Column(db.String(255), unique = True,nullable = False)
-    bio = db.Column(db.String(255),default ='My default Bio')
-    profile_pic_path = db.Column(db.String(150),default ='default.png')
-    hashed_password = db.Column(db.String(255),nullable = False)
-    blog = db.relationship('Blog', backref='user', lazy='dynamic')
+    email  = db.Column(db.String(255),unique = True,nullable = False)
+    secure_password = db.Column(db.String(255),nullable = False)
+    pass_secure = db.Column(db.String(255))
+    bio = db.Column(db.String(255))
+    profile_pic_path = db.Column(db.String())
+    blogs = db.relationship('Blog', backref='user', lazy='dynamic')
     comment = db.relationship('Comment', backref='user', lazy='dynamic')
+    upvote = db.relationship('Upvote',backref='user',lazy='dynamic')
+    downvote = db.relationship('Downvote',backref='user',lazy='dynamic')
     
     @property
     def set_password(self):
@@ -32,25 +33,27 @@ class User(UserMixin,db.Model):
     def verify_password(self,password):
         return check_password_hash(self.hashed_password,password)
 
-    def save(self):
+    def save_u(self):
         db.session.add(self)
         db.session.commit()
+
     def delete(self):
         db.session.delete(self)
         db.session.commit()
 
     def __repr__(self):
-        return "User: %s" %str(self.username)
+        return f'User {self.username}'
 
 class Blog(db.Model):
     __tablename__ = 'blogs'
-    id = db.Column(db.Integer,primary_key=True)
-    title = db.Column(db.String(255),nullable=False)
-    content = db.Column(db.Text(),nullable=False)
-    posted = db.Column(db.DateTime,default=datetime.utcnow)
-    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
-    comment = db.relationship('Comment', backref='blog', lazy='dynamic')
-
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(255),nullable = False)
+    posted = db.Column(db.Text(), nullable = False)
+    comment = db.relationship('Comment',backref='blog',lazy='dynamic')
+    upvote = db.relationship('Upvote',backref='blog',lazy='dynamic')
+    downvote = db.relationship('Downvote',backref='blog',lazy='dynamic')
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    
     def save(self):
         db.session.add(self)
         db.session.commit()
@@ -110,7 +113,7 @@ class Upvote(db.Model):
 
     id = db.Column(db.Integer,primary_key=True)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
-    pitch_id = db.Column(db.Integer,db.ForeignKey('blogs.id'))
+    blog_id = db.Column(db.Integer,db.ForeignKey('blogs.id'))
     
 
     def save(self):
@@ -131,7 +134,7 @@ class Downvote(db.Model):
 
     id = db.Column(db.Integer,primary_key=True)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
-    pitch_id = db.Column(db.Integer,db.ForeignKey('blogs.id'))
+    blog_id = db.Column(db.Integer,db.ForeignKey('blogs.id'))
     
 
     def save(self):
@@ -144,6 +147,14 @@ class Downvote(db.Model):
 
     def __repr__(self):
         return f'{self.user_id}:{self.blog_id}'
+
+class Quote:
+    def __init__(self,author,id,quote):
+        self.id = id
+        self.author = author
+        self.quote = quote
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+

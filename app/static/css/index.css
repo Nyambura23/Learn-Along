@@ -1,0 +1,19 @@
+.body{
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  font-family: 'Playfair Display', serif;
+  font-size: 25px;
+}
+
+.profile{
+color:peachpuff;
+}
+
+.learn{
+  color: white;
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+}

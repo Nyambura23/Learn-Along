@@ -1,6 +1,6 @@
-.env
-.vscode
-virtual
-*pyc
+virtual/
+venv/
+*.pyc
+instance/
 __pycache__
 start.sh

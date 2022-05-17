@@ -1,4 +1,4 @@
-# Lear-Along
+# Learn-Along
 
 
 #### By Nyambura Bianca
