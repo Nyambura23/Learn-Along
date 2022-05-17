@@ -1,7 +1,8 @@
-from flask import render_template, redirect, url_for,abort,request
+from flask import flash, render_template, redirect, url_for,abort,request
+from app.email import mail_message
 from .. import main
 from flask_login import login_required,current_user
-from app.models import User,Blog,Comment,Upvote,Downvote
+from app.models import User,Blog,Comment,Upvote,Downvote,Subscriber
 from .forms import UpdateProfile,BlogForm,CommentForm
 from .. import db,photos
 
@@ -92,3 +93,23 @@ def dislike(id):
     new_downvote = Downvote(user = current_user, blog_id=id)
     new_downvote.save()
     return redirect(url_for('main.index',id = id))
+
+
+@main.route('/subscribe',methods = ['POST','GET'])
+def subscribe():
+    email = request.form.get('subscriber')
+    new_subscriber = Subscriber(email = email)
+    new_subscriber.save_subscriber()
+    mail_message("Subscribed to D-Blog","email/welcome_subscriber",new_subscriber.email,new_subscriber=new_subscriber)
+    flash('Sucessfuly subscribed')
+    return redirect(url_for('main.index'))
+
+@main.route('/blog/<blog_id>/delete', methods = ['POST'])
+@login_required
+def delete_post(blog_id):
+    blog = Blog.query.get(blog_id)
+    if blog.user != current_user:
+        abort(403)
+    blog.delete()
+    flash("You have deleted your Blog succesfully!")
+    return redirect(url_for('main.index'))
