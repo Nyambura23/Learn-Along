@@ -15,6 +15,7 @@
         <form action="{{url_for('main.delete_post',blog_id = blog.id)}}" method="POST">
             <input  type="submit" class="btn btn-danger btn-sm" value="Delete">
         </form>
+
 </div>
 <div class="col">
     <form class="form-inline" action="{{url_for('main.comment',blog_id = blog.id)}}" method="POST">
