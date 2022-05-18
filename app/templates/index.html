@@ -26,19 +26,23 @@
     </head>
         <div  class="container-fluid">
             <body class="body" style="background-image:url(../static/photos/blog2.jpg)" height="100vh">
+
+                <div class="card cardquote">
+                    <div class="card-title">
+                        <h4>A quote by: <span style="color:white">{{quote.author}}</span> </h4>
+                    </div>
+                    <p class="card-text">{{quote.quote}}</p>
+                </div>
+            </div>
+            
                 <h2 class="learn" id="posts" >Let's Learn Together</h2>
-            <ul class="nav nav-pills nav-justified nav-fill" role="tablist">
-                <li class="nav-item" >
-                    <a id ="cats" class="nav-link" data-toggle="tab" href="#all"><strong>All articles</strong> </a>
-                </li>
-            </ul>
 
-
-               <!-- Random quote section  -->
-           
-             <ul>
-               {{ macro.displayBlogList(blogs)}}
-             </ul>
+            <div class="container">
+                <div  class="container-fluid tab-pane active" id="all"><br>
+                    <ul>
+                        {{ macro.displayBlogList(blogs)}}
+                      </ul>
+                </div>
 
             </body>
         </div>
@@ -46,11 +50,3 @@
 
 {% endblock%}
 
-<!-- <div class="container">
-    <div class="card cardquote">
-        <div class="card-title">
-            <h4>A quote by: <span style="color: rgb(3, 3, 3)">{{quote.author}}</span> </h4>
-        </div>
-        <p class="card-text">{{quote.quote}}</p>
-    </div>
-</div> -->

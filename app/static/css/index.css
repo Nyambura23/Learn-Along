@@ -1,11 +1,41 @@
+
+
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+}
+
+.navbar{
+  position: fixed;
+  top:0;
+  left:0; right: 0;
+  
+}
+
+.navbar ul{
+  display: flex;
+  list-style: none;
+  margin: 0px 0px 0px 0px;
+  color: whitesmoke;
+
+}
+
+
 .body{
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items: center;
+  text-align: center;
   background-position: center;
   background-size: cover;
-  background-repeat: no-repeat;
   height: 100vh;
-  font-family: 'Playfair Display', serif;
-  font-size: 25px;
+
+  
 }
+
 
 .profile{
 color:peachpuff;
@@ -17,3 +47,4 @@ color:peachpuff;
   font-size: 30px;
   text-align: center;
 }
+

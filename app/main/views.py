@@ -1,5 +1,5 @@
 from flask import flash, render_template, redirect, url_for,abort,request
-from app.email import mail_message
+# from app.email import mail_message
 from app.request import get_quotes
 from . import main
 from flask_login import login_required,current_user
@@ -19,10 +19,10 @@ def new_blog():
     form = BlogForm()
     if form.validate_on_submit():
         title = form.title.data
-        post = form.post.data
+        blog = form.blog.data
         user_id = current_user
-        new_blog_object = Blog(post=post,user_id=user_id._get_current_object().id,title=title)
-        new_blog_object.save_p()
+        new_blog_object = Blog(blog=blog,user_id=user_id._get_current_object().id,title=title)
+        new_blog_object.save()
         return redirect(url_for('main.index'))
         
     return render_template('create_blog.html', form = form)
@@ -38,7 +38,7 @@ def comment(blog_id):
         blog_id = blog_id
         user_id = current_user._get_current_object().id
         new_comment = Comment(comment = comment,user_id = user_id,blog_id = blog_id)
-        new_comment.save_c()
+        new_comment.save()
         return redirect(url_for('.comment', blog_id = blog_id))
     return render_template('comment.html', form =form, blog = blog,all_comments=all_comments)
 
@@ -53,35 +53,35 @@ def profile(uname):
 
     return render_template("profile/profile.html", user = user,posts=posts)
 
-@main.route('/user/<name>/updateprofile', methods = ['GET','POST'])
+@main.route('/user/<uname>/updateprofile', methods = ['GET','POST'])
 @login_required
-def updateprofile(name):
+def updateprofile(uname):
     form = UpdateProfile()
-    user = User.query.filter_by(username = name).first()
+    user = User.query.filter_by(username = uname).first()
     if user == None:
         abort(404)
     if form.validate_on_submit():
         user.bio = form.bio.data
         user.save_u()
-        return redirect(url_for('.profile',name = name))
+        return redirect(url_for('.profile',uname = user.username))
     return render_template('profile/update.html',form =form)
 
 
-@main.route('/user/<name>/update/pic',methods= ['POST'])
+@main.route('/user/<uname>/update/pic',methods= ['POST'])
 @login_required
-def update_pic(name):
-    user = User.query.filter_by(username = name).first()
+def update_pic(uname):
+    user = User.query.filter_by(username = uname).first()
     if 'photo' in request.files:
         filename = photos.save(request.files['photo'])
         path = f'photos/{filename}'
         user.profile_pic_path = path
         db.session.commit()
-    return redirect(url_for('main.profile',name=name))
+    return redirect(url_for('main.profile',uname=uname))
 
 @main.route('/like/<int:id>',methods = ['GET','POST'])
 @login_required
 def like(id):
-    blog = blog.query.get(id)
+    blog = Blog.query.get(id)
     new_vote = Upvote(user = current_user, blog_id=id)
     new_vote.save()
     return redirect(url_for('main.index',blog_id=id))
@@ -100,7 +100,7 @@ def subscribe():
     email = request.form.get('subscriber')
     new_subscriber = Subscriber(email = email)
     new_subscriber.save_subscriber()
-    mail_message("Subscribed to D-Blog","email/welcome_subscriber",new_subscriber.email,new_subscriber=new_subscriber)
+    # mail_message("Subscribed to D-Blog","email/welcome_subscriber",new_subscriber.email,new_subscriber=new_subscriber)
     flash('Sucessfuly subscribed')
     return redirect(url_for('main.index'))
 

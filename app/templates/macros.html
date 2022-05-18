@@ -1,14 +1,47 @@
 {% macro displayBlogList(blog_list) %}
 
-    {% for blog in blog_list %}
-    <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 movie-card">
-      <!-- <img src="" class="img-responsive"> -->
-      <li class="text-center">
-          <a href="/blog/{{blog.author}}">
-              {{ blog.blog|truncate(100)}}</a>
-      </li>
-  </div>
-    {% endfor %}
+{% for blog in blog_list %}
+<div class="container">
+<div class="row row-cols-2 ">
+<div class="col" >
+    <div class="box">
+ <div class="thumbnail" id="carded">
+    <h5 class="card-header">{{blog.title}}</h5>
+    <div class="card-body">
+      <p>{{blog.blog|truncate(100)}}</p>
+      <div><span class="foot" >{{blog.comment.count()}} Comments</span> 
+        <span class="foot"><a href="/like/{{ blog.id }}"></i>{{blog.upvote.count()}} 👍🏽 </a></span>
+        <span class="foot"><a href="/dislike/{{ blog.id }}"></i>{{blog.downvote.count()}} 👎🏽 </a></span>
+        <form action="{{url_for('main.delete_post',blog_id = blog.id)}}" method="POST">
+            <input  type="submit" class="btn btn-danger btn-sm" value="Delete">
+        </form>
+</div>
+<div class="col">
+    <form class="form-inline" action="{{url_for('main.comment',blog_id = blog.id)}}" method="POST">
+        <div class="md-form form-group">
+            <!-- <i class="fa fa-lock prefix"></i> -->
+            <label for="form92">Type your comment</label>
+            <input type="text"  class="form-control" name ="newcomment" required>
+        </div>
+        <div class="md-form form-group">
+            <button class="btn btn-sm btn-outline-info">Comment</button>
+        </div>
+    </form>
+</div>
+
+</div>
+</div>
+</div>
+
+
+
+{% endfor %}
+
+
+
+
+
 
 {% endmacro %}
+
 

@@ -13,25 +13,24 @@ class User(UserMixin,db.Model):
     username = db.Column(db.String(255),unique = True,nullable = False)
     email  = db.Column(db.String(255),unique = True,nullable = False)
     secure_password = db.Column(db.String(255),nullable = False)
-    pass_secure = db.Column(db.String(255))
     bio = db.Column(db.String(255))
-    profile_pic_path = db.Column(db.String())
     blogs = db.relationship('Blog', backref='user', lazy='dynamic')
     comment = db.relationship('Comment', backref='user', lazy='dynamic')
     upvote = db.relationship('Upvote',backref='user',lazy='dynamic')
     downvote = db.relationship('Downvote',backref='user',lazy='dynamic')
+    profile_pic_path = db.Column(db.String())
     
+
     @property
     def set_password(self):
         raise AttributeError('You cannot read the password attribute')
 
     @set_password.setter
     def password(self, password):
-        self.hashed_password = generate_password_hash(password)
-
+        self.secure_password = generate_password_hash(password)
 
     def verify_password(self,password):
-        return check_password_hash(self.hashed_password,password)
+        return check_password_hash(self.secure_password,password)
 
     def save_u(self):
         db.session.add(self)
@@ -48,7 +47,7 @@ class Blog(db.Model):
     __tablename__ = 'blogs'
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String(255),nullable = False)
-    posted = db.Column(db.Text(), nullable = False)
+    blog = db.Column(db.String(500))
     comment = db.relationship('Comment',backref='blog',lazy='dynamic')
     upvote = db.relationship('Upvote',backref='blog',lazy='dynamic')
     downvote = db.relationship('Downvote',backref='blog',lazy='dynamic')
