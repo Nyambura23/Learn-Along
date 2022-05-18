@@ -1,6 +1,6 @@
 virtual/
 venv/
-*.pyc
+*.pyc/
 instance/
-__pycache__
-start.sh
+__pycache__/
+start.sh/
