@@ -8,7 +8,7 @@
  <div class="thumbnail" id="carded">
     <h5 class="card-header">{{blog.title}}</h5>
     <div class="card-body">
-      <p>{{blog.blog|truncate(100)}}</p>
+      <p>{{blog.blog}}</p>
       <div><span class="foot" >{{blog.comment.count()}} Comments</span> 
         <span class="foot"><a href="/like/{{ blog.id }}"></i>{{blog.upvote.count()}} 👍🏽 </a></span>
         <span class="foot"><a href="/dislike/{{ blog.id }}"></i>{{blog.downvote.count()}} 👎🏽 </a></span>
